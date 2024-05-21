@@ -1,0 +1,160 @@
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="breadcrumb">
+                    <h1>Lawyer List</h1>
+                    <ul>
+                        <li></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col">
+                <div class="profile-details">
+                    <!-- <button [ngClass]="{'make-disabled' : !selected?.length}"
+                        (click)="sendNotificationInvoice(modalConfirm3)" class="ml-auto  btn btn-info"> <i
+                            _ngcontent-joj-c166 class="i-Bell text-14"></i> Send Notification </button> -->
+                </div>
+            </div>
+        </div>
+        <div class="separator-breadcrumb border-top">
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="md-form mt-0">
+                        <input id="search1" placeholder="Search" (keyup)="applyFilter($event.target.value)"
+                            class="form-control fa fa-search">
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="md-form mt-0">
+                        <button class="btn btn-outline-primary" (click)="addnewLawyer(addlawmodal)">Add New</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class=" card col-md-12">
+                <div class="card-body">
+                    <div class="faq-list-table">
+                        <table>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                            <tr *ngFor="let item of LawyerData;let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.email}}</td>
+                                <td><label class="switch switch-primary">
+                                        <input type="checkbox" [checked]="item.status == 1">
+                                        <span (click)="changeStatus(item.id, item.status)" class="slider"></span>
+                                    </label> </td>
+                                <td class="action-tag">
+                                    <div class="d-flex">
+                                        <button class="btn btn-primary" (click)="onEdit(addlawmodal,item)">Edit</button>
+                                        <button class="btn btn-danger ml-2" (click)="onDelete(deletelawmodal,item.id)">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<ng-template #deletelawmodal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-title">Lawyer deletion</h4>
+        <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+            (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p><strong>Are you sure you want to delete this Lawyer?</strong></p>
+
+        <span class="text-danger">This operation can not be undone.</span>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary btn-rounded"
+            (click)="modal.dismiss('cancel')">Cancel</button>
+        <button type="button" class="btn btn-danger btn-rounded" (click)="deleteLawyer()">Ok</button>
+    </div>
+</ng-template>
+<ng-template #addlawmodal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-title" *ngIf="!lawyer_id">Add New Lawyer</h4>
+        <h4 class="modal-title" id="modal-title" *ngIf="lawyer_id">Edit Lawyer</h4>
+        <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+            (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <!-- <div class="row"> -->
+        <form [formGroup]="addeditform">
+
+            <div class="col-md-12 form-group mb-3">
+                <label for="firstName">Name</label>
+                <input placeholder="Name" class="form-control" formControlName="name" />
+                <div *ngIf="addeditform.controls['name'].errors && (!addeditform.controls['name'].pristine || submitted ||addeditform.controls['name'].touched )"
+                    class="error-msg">
+                    <div class="text-danger" [hidden]="!addeditform.controls['name'].errors.required">
+                        Name is
+                        required.</div>
+                </div>
+            </div>
+
+            <div class="col-md-12 form-group mb-3">
+                <label for="firstName">Email</label>
+                <input maxlength="200" onkeypress="return event.target.value.length < 200" type="text"
+                    class="form-control" formControlName="email" placeholder="Email">
+                <div *ngIf="addeditform.controls['email'].errors && (!addeditform.controls['email'].pristine || submitted ||addeditform.controls['email'].touched )"
+                    class="error-msg">
+                    <div class="text-danger" [hidden]="!addeditform.controls['email'].errors.required">
+                        Email is
+                        required.</div>
+                    <div class="text-danger" [hidden]="!addeditform.controls['email'].errors.pattern">
+                        Email is
+                        invalid.</div>
+                </div>
+            </div>
+
+            <div *ngIf="!lawyer_id" class="col-md-12 form-group mb-3">
+                <label for="lastName">Password</label>
+                <input rows="10" cols="60" onkeypress="return event.target.value.length < 2000"
+                    formControlName="password" type="text" class="form-control" placeholder="password" />
+                <div *ngIf="addeditform.controls['password'].errors && (!addeditform.controls['password'].pristine || submitted ||addeditform.controls['password'].touched )"
+                    class="error-msg">
+                    <div type="password" class="text-danger"
+                        [hidden]="!addeditform.controls['password'].errors.required">
+                        Password is
+                        required.</div>
+                </div>
+            </div>
+
+
+        </form>
+        <!-- </div> -->
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-outline-secondary btn-rounded" (click)="modal.dismiss('cancel')">Cancel</button>
+        <button ngbAutofocus class="btn btn-success btn-rounded" (click)="addEditLawyer()">Save</button>
+    </div>
+</ng-template>

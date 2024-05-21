@@ -1,0 +1,55 @@
+.notification-main--box {
+    position: relative;
+    margin-top: -10px !important;
+}
+.notification-main--box .badge{
+    position: absolute;
+    top: 7px;
+    left: 12px;
+}
+.notification--box {
+    position: absolute;
+    right: 0;
+    top: 50px;
+    min-width: 340px;
+    opacity: 0;
+    transform: translateY(-130%);
+    transition: all 0.4s ease-in-out;
+}
+.notification--box.open{
+    opacity: 1;
+    transform: translateY(0%);
+}
+.notification--box .card-header {
+    background: #e5ebea;
+}
+.notification--box::after {
+    content: '';
+    position: absolute;
+    top: -18px;
+    right: 20px;
+    border: 8px solid transparent;
+    border-bottom: 10px solid #e5ebea;
+}
+
+.notification--box ul {
+    padding: 20px 20px 0 20px;
+    margin: 0;
+    max-height: 350px;
+    overflow: auto;
+}
+.notification--box ul li.notidiv {
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #dee2e6;
+    list-style: none;
+}
+.notification--box .card-header h4{font-weight: 600;}
+.card-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.close-icon {
+    margin-left: auto;
+}

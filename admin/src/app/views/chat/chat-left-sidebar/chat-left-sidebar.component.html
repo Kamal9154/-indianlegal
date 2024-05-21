@@ -1,0 +1,69 @@
+<div class="border-right">
+  <div class="pt-2 pb-2 pl-0 pr-0 d-flex align-items-center o-hidden box-shadow-1 chat-topbar">
+    <a appSidebarToggler="chat-sidebar" class="link-icon d-md-none">
+      <i class="icon-regular ml-0 mr-3 i-Left"></i>
+    </a>
+
+    <div class="form-group m-0 flex-grow-1">
+
+      <!-- <button (click)="getLatestUserList()" type="button" class="btn btn-outline-primary m-1">Latest</button>
+      <button (click)="getLatestUserList()" type="button" class="btn btn-outline-primary m-1">Latest</button>
+      <button (click)="getLatestUserList()" type="button" class="btn btn-outline-primary m-1">Latest</button>
+      <button (click)="getSosUserList()">SOS</button>
+      <button (click)="getAllUserList()">All</button> -->
+      <div class="chat-tab--sec">
+        <ul class="nav nav-tabs">
+          <li (click)="getLatestUserList()" class="nav-item">
+            <a class="nav-link" [ngClass]="listName == 'latest' ? 'active' : ''">Latest</a>
+          </li>
+          <li (click)="getSosUserList()" class="nav-item">
+            <a class="nav-link" [ngClass]="listName == 'sos' ? 'active' : ''">SOS</a>
+          </li>
+          <li (click)="getAllUserList()" class="nav-item">
+            <a class="nav-link" [ngClass]="listName == 'all' ? 'active' : ''">All</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div [perfectScrollbar]="{suppressScrollX: true}" class="contacts-scrollable rtl-ps-none">
+
+
+    <div *ngFor="let user of users ; let i = index" [ngClass]="{'blink' : user.sos_status == 1}" class="chatuser blink"
+      (click)="getChatByContact(user,i)">
+      
+      <div class="user-img--box" >
+        <img *ngIf="user.profile_image" [src]="user.profile_image" alt="" class="avatar-sm rounded-circle mr-3">
+        <img *ngIf="!user.profile_image" src="../../../../assets/images/user.jpg" alt="" class="avatar-sm rounded-circle mr-3">
+      </div>
+      <div class="chat-user-mass--detail">
+        <div class="chat-user-name--box">
+          <div class="chat-user--name">
+            <h4 class="m-0">{{user.name}}</h4>
+          </div>
+          <div class="chat-mass--date">
+            <p class="m-0">{{user.created_at}}</p>
+          </div>
+        </div>
+        <div class="chat-massage--box">
+          <div class="chat-user--last">
+            <p class="m-0 text-small text-muted text-12" *ngIf="user.message_type == 'text'">{{user.last_message}}</p>
+            <p class="m-0 text-small text-muted text-12" *ngIf="user.message_type == 'image'">image</p>
+            <p class="m-0 text-small text-muted text-12" *ngIf="user.message_type == 'pdf'">pdf</p>
+          </div>
+          <div class="user-unseen--mass">
+            <p class="m-0  text-13 unseen-message" *ngIf="user.unseen_message">{{user.unseen_message > 99 ? '99+' : user.unseen_message}}</p>
+            <p class="m-0  text-13" *ngIf="!user.unseen_message"></p>
+          </div>
+        </div>
+      </div>
+     
+    </div>
+    <div *ngIf="!users.length" class="chatuser">  
+    No Data Found
+    </div>
+
+  </div>
+</div>

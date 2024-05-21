@@ -1,0 +1,224 @@
+<div>
+  <div class="d-flex pl-3 pr-3 pt-2 pb-2 o-hidden box-shadow-1 chat-topbar">
+    <a appSidebarToggler="chat-sidebar" class="link-icon d-md-none">
+      <i class="icon-regular i-Right ml-0 mr-3"></i>
+    </a>
+    <div class="d-flex align-items-center justify-content-between w-100" *ngIf="userData">
+      <div class="d-flex" type="button" (click)="scrollToDown()">
+        <img *ngIf="userData?.profile_image" [src]="userData?.profile_image" [alt]="img" class="avatar-sm rounded-circle mr-2">
+        <img *ngIf="!userData?.profile_image" src="../../../../assets/images/user.jpg" [alt]="img" class="avatar-sm rounded-circle mr-2">
+        <p class="m-0 text-title text-16 flex-grow-1">{{userData?.name}}</p>
+      </div>
+      <div>
+        <span type="button" class="cursor-pointer mr-3"><i (click)="showpdfInvoice(showpdfmodal)"
+            class="i-Folders text-16 mr-1"></i></span>
+        <span type="button" class="cursor-pointer"><i (click)="getNotification()" data-toggle="modal"
+            data-target="#notificationmodal" class="i-Bell text-16 mr-1"></i></span>
+      </div>
+
+      <span>Membership Type: <strong> {{userProfileData?.membership_type}}</strong></span>
+      <!-- <span>Country: {{userProfileData?.user_country}}</span> -->
+    </div>
+
+  </div>
+
+  <div [perfectScrollbar]="{suppressScrollX: true}" class="chat-content rtl-ps-none" *ngIf="!chat.length"></div>
+  <div [perfectScrollbar]="{suppressScrollX: true}" class="chat-content rtl-ps-none" *ngIf="chat.length">
+    <div *ngFor="let msg of chat" class="mb-4">
+      <!-- user -->
+      <div *ngIf="msg.sender_id != admin_id" class="d-flex">
+        <img [src]="userData?.profile_image" [alt]="img" class="avatar-sm rounded-circle mr-3">
+        <div class="message flex-grow-1">
+          <div class="d-flex">
+            <p class="mb-1 text-title text-16 flex-grow-1">{{userData?.name}}</p>
+            <span class="text-small text-muted">{{msg.created_at}}</span>
+          </div>
+          <p *ngIf="msg.message_type == 'text'" class="m-0">{{msg.message}}</p>
+          <a href="{{msg.message}}" target="_blank" *ngIf="msg.message_type == 'image'">
+            <img *ngIf="msg.message" class="image-chat" [src]="msg.message" alt="">
+            <img *ngIf="!msg.message" class="image-chat" src="../../../../assets/images/user.jpg" alt="">
+          </a>
+          <a href="{{msg.message}}" target="_blank" *ngIf="msg.message_type == 'pdf'">
+            <img class="image-chat" src="../../../../assets/images/pdficon.png" alt="">
+          </a>
+        </div>
+      </div>
+      <!-- Admin -->
+      <div *ngIf="msg.sender_id == admin_id" class="d-flex user">
+        <div class="message flex-grow-1">
+          <div class="d-flex">
+            <span class="text-small text-muted flex-grow-1">{{msg.created_at}}</span>
+            <p class="mb-1 text-title text-16">{{adminData?.name}}</p>
+          </div>
+          <p class="m-0 text-right">{{msg.message}}</p>
+        </div>
+        <img [src]="adminData?.profile_image" [alt]="img" class="avatar-sm rounded-circle ml-3">
+      </div>
+    </div>
+  </div>
+
+  <div class="pl-3 pr-3 pt-3 pb-3 box-shadow-1 chat-input-area" *ngIf="userData">
+    <form #msgForm="ngForm" class="inputForm" (ngSubmit)="sendMessage($event)">
+      <div class="d-flex">
+        <div class="form-group">
+          <textarea class="form-control form-control-rounded" #msgInput ngModel placeholder="Type your message"
+            name="message" id="message" cols="90" rows="2"></textarea>
+        </div>
+        <div class="flex-grow-1"></div>
+        <button type="submit" class="btn btn-icon btn-rounded btn-primary mr-2">
+          <i class="i-Paper-Plane"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- <div class="spinner-glow spinner-glow-warning" *ngIf="showempty" ></div> -->
+  <div class="app-inro-circle" *ngIf="!userData">
+    <div class="border rounded-circle big-bubble"
+      [@animate]="{value:'*',params:{scale:'.2',delay:'400ms', duration: '400ms'}}">
+      <i class="i-Speach-Bubbles"></i>
+    </div>
+    <p class="text-16" [@animate]="{value:'*',params:{y:'120px',delay:'600ms', duration: '400ms'}}">Select a contact and
+      start chat.</p>
+  </div>
+</div>
+
+
+
+<ng-template #showpdfmodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-title">User Documents</h4>
+    <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+      (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div [ngClass]="userProfileData.passport_file_url ? '' : 'no-doc'" class="col-md-12 form-group mb-3 d-flex">
+      <div class="icon_img_div" style="background: #ffce8d;">
+        <a *ngIf="userProfileData.passport_file_url" target="_blank" href="{{userProfileData.passport_file_url}}">
+          <img class="icon_img_img1" src="../../../../assets/images/passport_icon.svg" alt="">
+        </a>
+        <img *ngIf="!userProfileData.passport_file_url" class="icon_img_img1"
+          src="../../../../assets/images/passport_icon.svg" alt="">
+      </div>
+      <span class="url-lable">Passport</span>
+    </div>
+
+    <div [ngClass]="userProfileData.visa_file_url ? '' : 'no-doc'" class="col-md-12 form-group mb-3 d-flex">
+      <div class="icon_img_div" style="background: #93f9ab;">
+        <a *ngIf="userProfileData.visa_file_url" target="_blank" href="{{userProfileData.visa_file_url}}">
+          <img class="icon_img_img2" src="../../../../assets/images/visa_icon.svg" alt="">
+        </a>
+        <img *ngIf="!userProfileData.visa_file_url" class="icon_img_img2" src="../../../../assets/images/visa_icon.svg"
+          alt="">
+      </div>
+      <span class="url-lable">Visa</span>
+    </div>
+
+    <div [ngClass]="userProfileData.nationality_id_url ? '' : 'no-doc'" class="col-md-12 form-group mb-3 d-flex">
+      <div class="icon_img_div" style="background: #8ddeff;">
+        <a *ngIf="userProfileData.nationality_id_url" target="_blank" href="{{userProfileData.nationality_id_url}}">
+          <img class="icon_img_img3" src="../../../../assets/images/visa_icon.svg" alt="">
+        </a>
+        <img *ngIf="!userProfileData.nationality_id_url" class="icon_img_img3"
+          src="../../../../assets/images/visa_icon.svg" alt="">
+      </div>
+      <span class="url-lable">Nationality Identity Card</span>
+    </div>
+
+    <div [ngClass]="userProfileData.insurance_file_url ? '' : 'no-doc'" class="col-md-12 form-group mb-3 d-flex">
+      <div class="icon_img_div" style="background: #f3aaf9;">
+        <a *ngIf="userProfileData.insurance_file_url" target="_blank" href="{{userProfileData.insurance_file_url}}">
+          <img class="icon_img_img4" src="../../../../assets/images/insurance_icon.svg" alt="">
+        </a>
+        <img *ngIf="!userProfileData.insurance_file_url" class="icon_img_img4"
+          src="../../../../assets/images/insurance_icon.svg" alt="">
+      </div>
+      <span class="url-lable">Insurance copy</span>
+    </div>
+
+    <div [ngClass]="userProfileData.driving_file_url ? '' : 'no-doc'" class="col-md-12 form-group mb-3 d-flex">
+      <div class="icon_img_div" style="background: #c4bfff;">
+        <a *ngIf="userProfileData.driving_file_url" target="_blank" href="{{userProfileData.driving_file_url}}">
+          <img class="icon_img_img5" src="../../../../assets/images/driving_license_icon.svg" alt="">
+        </a>
+        <img *ngIf="!userProfileData.driving_file_url" class="icon_img_img5"
+          src="../../../../assets/images/driving_license_icon.svg" alt="">
+      </div>
+      <span class="url-lable">Driving License</span>
+    </div>
+
+    <div [ngClass]="userProfileData.emergency_file_url ? '' : 'no-doc'" class="col-md-12 form-group mb-3 d-flex">
+      <div class="icon_img_div" style="width: 65px;background: #bfe7ff;">
+        <a *ngIf="userProfileData.emergency_file_url" target="_blank" href="{{userProfileData.emergency_file_url}}">
+          <img class="icon_img_img6" src="../../../../assets/images/emergency_icon.svg" alt="">
+        </a>
+        <img *ngIf="!userProfileData.emergency_file_url" class="icon_img_img6"
+          src="../../../../assets/images/emergency_icon.svg" alt="">
+      </div>
+      <span class="url-lable" style="margin-top: 5px;">Spouse / Father / Mother / Relative / Friend's document for
+        emergency contact</span>
+    </div>
+  </div>
+</ng-template>
+
+
+<div class="modal fade" id="notificationmodal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title">Notification</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="notificationform">
+
+          <div class="col-md-12 form-group mb-3">
+            <input maxlength="49" type="text" class="form-control" formControlName="title" placeholder="Title">
+            <div
+              *ngIf="notificationform.controls['title'].errors && (!notificationform.controls['title'].pristine || submitted ||notificationform.controls['title'].touched )"
+              class="error-msg">
+              <div class="text-danger" [hidden]="!notificationform.controls['title'].errors.required">
+                Title is
+                required.</div>
+            </div>
+          </div>
+
+          <div class="col-md-12 form-group mb-3">
+            <textarea maxlength="150" formControlName="body" type="text" class="form-control"
+              placeholder="Body"></textarea>
+            <div
+              *ngIf="notificationform.controls['body'].errors && (!notificationform.controls['body'].pristine || submitted ||notificationform.controls['body'].touched )"
+              class="error-msg">
+              <div class="text-danger" [hidden]="!notificationform.controls['body'].errors.required">
+                Body is required.</div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer1">
+        <button type="submit" class="btn btn-success btn-rounded" (click)="sendNotification()">send</button>
+
+      </div>
+      <div class="modal-footer">
+        <div *ngFor="let data of userAllNotifications" class="col-md-12 notidiv">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="align-items-center">
+                <div class="flex-grow-1">
+                  <h6 class="m-0">{{data.title}}</h6>
+                  <p class="m-0 text-small text-muted text-13">{{data.body}}</p>
+                </div>
+                <div style="text-align: end;">
+                  <span class="font-weight-bold text-primary text-12">{{data.created_at}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

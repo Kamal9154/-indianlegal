@@ -1,0 +1,97 @@
+<div class="md-form mt-0 mb-2 {{ currentListName == 'all' ? 'filter--show' : 'filter--hide'}}" >
+
+<!-- <div class="md-form mt-0 mb-2" *ngIf="currentListName == 'all'"> -->
+  <input id="search1" [(ngModel)]="filterName" placeholder="Search by Name and Email"
+    (keyup)="chatFilter($event.target.value)" class="form-control fa fa-search d-inline-block"
+    style="max-width: 283px;">
+  <button (click)="clear()" class="btn btn-danger d-inline-block ml-2">Clear</button>
+</div>
+<div appSidebarContainer class="card chat-sidebar-container">
+  <div appSidebarContent class="chat-content-wrap">
+
+    <app-chat-contents (scrolldown)="scrollToBottom()" [chat]="chat" [userData]="userDetails"
+      [userProfileData]="userProfile" (sendMsg)="sendMsg($event)"></app-chat-contents>
+  </div>
+  <div appSidebar="chat-sidebar" class="chat-sidebar-wrap">
+    <app-chat-left-sidebar (getLatest)="getLatestUserList()" (getAll)="getAllUserList()" (getSos)="getSosUserList()"
+      [users]="users" (userDetails)="getUserDetails($event)" (click)="listNameData()"></app-chat-left-sidebar>
+  </div>
+</div>
+
+<div #scrollMe *ngIf="showProfile" class="card user-profile o-hidden mb-4 mt-1">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6 col-6">
+        <div class="mb-4 profilefirst">
+          <div>
+            <img class="profileImage" [src]="userProfile?.profile_image" alt=""><br>
+          </div>
+          <div class="profileDatafirst">
+            <p class="text-primary mb-1"><i class="i-ID-Card text-16 mr-1"></i>Personal Details</p>
+            <span><strong>Name: {{userProfile?.name}}</strong></span><br>
+            <!-- <span>{{userProfile?.dob}}</span><br>
+            <span>{{userProfile?.user_country}}</span><br>
+            <span>{{userProfile?.mobile}}</span> -->
+            <span>Email: {{userProfile?.email}}</span>
+          </div>
+        </div>
+        <div class="mb-4">
+          <p class="text-primary mb-1"><i class="i-ID-Card text-16 mr-1"></i>Passport Details</p>
+          <span>Passport Number : {{userProfile?.passport_no}}</span><br>
+          <span>Issue Date : {{userProfile?.passport_issue_date}}</span><br>
+          <span>Expiry Date : {{userProfile?.passport_expiry_date}}</span>
+
+        </div>
+        <div class="mb-4">
+          <p class="text-primary mb-1"><i class="i-Map-Marker text-16 mr-1"></i>Address</p>
+          <span>{{userProfile?.user_address}}</span>
+        </div>
+        <div class="mb-4">
+          <p class="text-primary mb-1"><i class="i-Address-Book text-16 mr-1"></i>Emergency Contact (personal)</p>
+          <span>Name : {{userProfile?.emergency_contact_name}}</span><br>
+          <span>Email Id : {{userProfile?.emergency_contact_email}}</span><br>
+          <span>Contact no. : {{userProfile?.emergency_contact_mobile}}</span>
+        </div>
+      </div>
+      <div class="col-md-6 col-6">
+        <div class="mb-4">
+          <p class="text-primary mb-1"><i class="i-Map2 text-16 mr-1"></i>Travel Itinerary</p>
+          <span>Port Of Entry : {{userProfile?.port_of_entry}}</span><br>
+          <span>Port OF Exit : {{userProfile?.port_of_exit}}</span>
+        </div>
+        <div class="mb-4">
+          <p class="text-primary mb-1"><i class="i-Globe text-16 mr-1"></i>Cities Traveled</p>
+          <div *ngFor="let cities of userProfile.cities_traveled;let i= index">
+
+            <span *ngIf="cities?.city">{{i+1}} : {{cities?.city}}</span> <br>
+          </div>
+          <span *ngIf="!userProfile.cities_traveled.length">No data found</span>
+          <!-- <span>{{userProfile?.city_2}}</span><br> -->
+          <!-- <span>{{userProfile?.city_3}}</span><br> -->
+          <!-- <span>{{userProfile?.city_4}}</span><br> -->
+          <!-- <span>{{userProfile?.city_5}}</span> -->
+
+        </div>
+        <div class="mb-4">
+          <p class="text-primary mb-1"><i class="i-Letter-Open text-16 mr-1"></i>Additional Comment / Request</p>
+          <span>{{userProfile?.comment}}</span>
+
+        </div>
+        <div class="mb-4">
+          <p class="text-primary mb-1"><i class="i-Address-Book text-16 mr-1"></i>Emergency Contact (Itinerary)</p>
+          <span>Name : {{userProfile?.emergency_name}}</span><br>
+          <span>Email Id : {{userProfile?.emergency_email}}</span><br>
+          <span>Contact no. :
+            <span *ngFor="let emergency_contact of userProfile?.emergency_contact">
+              {{emergency_contact?.code}} {{emergency_contact?.number}}
+            </span>
+          </span><br> 
+            <!-- {{userProfile?.emergency_mobile_2}}, -->
+            <!-- {{userProfile?.emergency_mobile_3}}</span>-->
+            <span>Address : {{userProfile?.emergency_address}}</span>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

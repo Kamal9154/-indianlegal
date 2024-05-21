@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+.btn-primary:focus {
+    color: #fff !important;
+    background-color: #032723 !important;
+    border-color: #032723 !important;
+    box-shadow: 0 0 0 0.2rem #9dc5c0 !important;
+}
+.chat-sidebar-wrap.sidebar {
+    width: 350px !important
+}
+
+.main-content-wrap.d-flex.flex-column.sidenav-open.ps {
+    margin-top: 55px !important;
+}

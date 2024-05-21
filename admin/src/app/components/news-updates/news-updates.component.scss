@@ -1,0 +1,23 @@
+.para-data {
+    height  : 100px;
+    overflow: hidden;
+}
+
+.ellipsis-container {
+    width: 200px;
+}
+
+.ellipsis-container p {
+    overflow     : hidden;
+    text-overflow: ellipsis;
+    white-space  : nowrap;
+}
+
+.buttons {
+    margin-top: -15px;
+}
+
+.news-img {
+    height  : 200px;
+    overflow: hidden;
+}

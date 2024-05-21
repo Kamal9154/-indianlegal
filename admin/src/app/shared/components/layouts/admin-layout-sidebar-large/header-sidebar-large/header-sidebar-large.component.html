@@ -1,0 +1,64 @@
+<div class="main-header">
+    <div class="main-logo logo">
+        <img class="main-logo-image" src="./assets/images/Indianlegalhelps-logo.png" alt="">
+    </div>
+    <div class="menu-toggle" (click)="toggelSidebar()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="d-flex align-items-center">
+        <!-- Mega menu -->
+        <!-- Search bar -->
+    </div>
+    <div style="margin: auto"></div>
+    <div style="margin-right: 32px;" class="cursor header-part-right">
+            <div type="button"  class="cursor-pointer notification-main--box pt-3">
+              <i (click)="notificationPopUp()" class="i-Bell text-20 mr-3 mt-1"></i>
+              <span *ngIf="notificationCount > 0" class="badge badge-danger">{{ notificationCount }}</span>
+              <div class="notification--box">
+                <div class="card">
+                  <div class="card-header">
+                    <h4 class="m-0">Notification</h4>
+                    <h4 class="close-icon" (click)="notificationPopUp()">x</h4>
+                  </div>                 
+       
+                  <div class="card-body p-0">
+                    <ul>
+                      <li *ngFor="let data of lawyerAllNotifications" class="notidiv">
+                          <div class="align-items-center">
+                            <div class="flex-grow-1">
+                              <h6 class="m-0">{{data.title}}</h6>
+                              <p class="m-0 text-small text-muted text-13">{{data.body}}</p>
+                            </div>
+                            <div style="text-align: end;">
+                              <span class="font-weight-bold text-primary text-12">{{data.created_at | date: 'dd/MM/yyyy hh:mm a'}}</span>
+                            </div>
+                          </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+        <button class="btn btn-outline-danger" (click)="signout(logout)">Sign out</button>
+    </div>
+</div>
+
+<ng-template #logout let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-title">Log Out</h4>
+        <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+            (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        Are you sure you want to logout
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary btn-rounded"
+            (click)="modal.dismiss('cancel')">Cancel</button>
+        <button ngbAutofocus class="btn btn-success btn-rounded" (click)="submitModal()">Ok </button>
+    </div>
+</ng-template>

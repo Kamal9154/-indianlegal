@@ -1,0 +1,32 @@
+th {
+    font-size: 16px;
+}
+
+.faq-list-table table th,
+.faq-list-table table td {
+    padding       : 5px;
+    vertical-align: top;
+}
+
+select.form-control {
+    -webkit-appearance: menulist;
+}
+
+table {
+    width: 100%;
+}
+
+.switch-primary input:checked+.slider {
+    background-color: #1eb806;
+}
+
+tr {
+    border-bottom: 1px #d7d7d7 solid;
+}
+
+td {
+    padding-top: 10px !important
+}
+.action-tag{
+    padding-top: 5px !important
+}

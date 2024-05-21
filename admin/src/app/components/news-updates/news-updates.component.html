@@ -1,0 +1,128 @@
+<div class="breadcrumb">
+    <h1>News & Updates ({{NewsData?.length}})</h1>
+    <ul>
+        <div>
+            <button class="btn btn-outline-primary addnew" (click)="addEditnewsInvoice(addeditmodal)">Add
+                New</button>
+        </div>
+    </ul>
+</div>
+
+<div class="separator-breadcrumb border-top"></div>
+
+<div class="row">
+    <div class="col-lg-3" *ngFor=" let data of NewsData">
+        <div style="height: 500px;" class="card mb-4 o-hidden">
+            <div class="news-img">
+                <img class="card-img-top" [src]="data.image" alt="">
+            </div>
+            <div class="card-body">
+                <h6 class="card-title">{{data.created_at}}</h6>
+                <div class="ellipsis-container">
+                    <p class="card-title">{{data.title}}</p>
+                </div>
+                <div class="card-text p-body">
+                    <div class="para-data">{{data.body}}</div>
+                    <div *ngIf="data.body.length>230">...</div>
+                </div>
+            </div>
+            <div class="card-body buttons">
+                <button class="btn btn-primary" (click)="addEditnewsInvoice(addeditmodal,data)">Edit</button>
+                <button class="btn btn-danger ml-1" (click)="deleteInvoice(deletemodal,data.id)">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<ng-template #addeditmodal let-modal>
+    <div class="modal-header">
+        <h4 *ngIf="!news_id" class="modal-title" id="modal-title">Add News</h4>
+        <h4 *ngIf="news_id" class="modal-title" id="modal-title">Edit News</h4>
+        <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+            (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="addEditform">
+            <div class="col-md-12 form-group mb-3">
+                <input type='file' (change)="onChange($event);" />
+                <img [src]="imageSrc" />
+            </div>
+
+            <div class="col-md-12 form-group mb-3">
+                <input maxlength="150" formControlName="title" type="text" class="form-control" placeholder="Heading" />
+                <div *ngIf="addEditform.controls['title'].errors && (!addEditform.controls['title'].pristine || submitted ||addEditform.controls['title'].touched )"
+                    class="error-msg">
+                    <div class="text-danger" [hidden]="!addEditform.controls['title'].errors.required">
+                        Heading is
+                        required.</div>
+                </div>
+            </div>
+
+            <div class="col-md-12 form-group mb-3">
+                <textarea maxlength="1500" class="form-control" formControlName="body" aria-describedby="emailHelp"
+                    placeholder="Paragraph"></textarea>
+                <div *ngIf="addEditform.controls['body'].errors && (!addEditform.controls['body'].pristine || submitted ||addEditform.controls['body'].touched )"
+                    class="error-msg">
+                    <div class="text-danger" *ngIf="addEditform.controls['body'].errors.required ">
+                        Paragraph is
+                        required.</div>
+                </div>
+            </div>
+            <div class="col-md-12 form-group mb-3">
+                <input type="date" class="form-control" formControlName="date" placeholder="Date">
+                <div *ngIf="addEditform.controls['date'].errors && (!addEditform.controls['date'].pristine || submitted ||addEditform.controls['date'].touched  )"
+                    class="error-msg">
+                    <div class="text-danger" [hidden]="!addEditform.controls['date'].errors.required">
+                        Date is
+                        required.</div>
+                </div>
+            </div>
+
+            <div class="col-md-12 form-group mb-3">
+                <input maxlength="49" class="form-control" formControlName="source" placeholder="Source">
+                <div *ngIf="addEditform.controls['source'].errors && (!addEditform.controls['source'].pristine || submitted ||addEditform.controls['source'].touched  )"
+                    class="error-msg">
+                    <div class="text-danger" [hidden]="!addEditform.controls['source'].errors.required">
+                        source is
+                        required.</div>
+                </div>
+            </div>
+        </form>
+        <!-- </div> -->
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary btn-rounded"
+            (click)="modal.dismiss('cancel')">Cancel</button>
+        <button class="btn btn-success btn-rounded" (click)="addEditNews()">Save</button>
+    </div>
+</ng-template>
+<ng-template #deletemodal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-title">Delete News</h4>
+        <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+            (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        Are you sure you want to delete this news
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary btn-rounded"
+            (click)="modal.dismiss('cancel')">Cancel</button>
+        <button (click)="modal.close('Save click')" type="button" class="btn btn-danger btn-rounded">Delete</button>
+    </div>
+</ng-template>

@@ -1,0 +1,246 @@
+<div class="breadcrumb">
+    <h1>Consulate Details ({{consulate?.length}})</h1>
+    <ul>
+        <div>
+            <button class="btn btn-outline-primary addnew" (click)="addnewInvoice(addeditmodal)">Add
+                New</button>
+        </div>
+    </ul>
+</div>
+
+<div class="separator-breadcrumb border-top"></div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div #map style="width: 100%; height: 500px"></div>
+    </div>
+</div>
+
+<ng-template #addeditmodal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-title">Add New Consulate</h4>
+        <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+            (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <!-- <div class="row"> -->
+        <form [formGroup]="addeditform">
+
+            <div class="col-md-12 form-group mb-3">
+                <!-- <label for="firstName">First name</label> -->
+                <input maxlength="49" type="text" class="form-control" formControlName="title"
+                    placeholder="Consulate Name">
+                <div *ngIf="addeditform.controls['title'].errors && (!addeditform.controls['title'].pristine || submitted ||addeditform.controls['title'].touched )"
+                    class="error-msg">
+                    <div class="text-danger" [hidden]="!addeditform.controls['title'].errors.required">
+                        Name is
+                        required.</div>
+                    <div class="text-danger" [hidden]="!addeditform.controls['title'].errors.pattern">
+                        Name is
+                        invalid.</div>
+                </div>
+            </div>
+
+            <div class="col-md-12 form-group mb-3">
+                <!-- <label for="lastName">Last name</label> -->
+                <textarea maxlength="150" formControlName="address" type="text" class="form-control"
+                    placeholder="Address"></textarea>
+                <div *ngIf="addeditform.controls['address'].errors && (!addeditform.controls['address'].pristine || submitted ||addeditform.controls['address'].touched )"
+                    class="error-msg">
+                    <div class="text-danger" [hidden]="!addeditform.controls['address'].errors.required">
+                        Address is
+                        required.</div>
+                    <div class="text-danger" [hidden]="!addeditform.controls['address'].errors.maxlength">
+                        Address should be less then 150 characters.</div>
+                </div>
+            </div>
+
+            <div class="col-md-12 form-group mb-3">
+                <!-- <label for="exampleInputEmail1">Email address</label> -->
+                <input maxlength="150" type="email" class="form-control" formControlName="contact_number"
+                    aria-describedby="emailHelp" placeholder="Contact Number">
+                <div *ngIf="addeditform.controls['contact_number'].errors && (!addeditform.controls['contact_number'].pristine || submitted ||addeditform.controls['contact_number'].touched )"
+                    class="error-msg">
+                    <div class="text-danger" *ngIf="addeditform.controls['contact_number'].errors.required ">
+                        Contact Number is
+                        required.</div>
+                    <div class="text-danger"
+                        *ngIf="addeditform.controls['contact_number'].errors.pattern || addeditform.controls['contact_number'].errors.minlength || addeditform.controls['contact_number'].errors.maxlength">
+                        Contact Numbers must be less than 150 digits.</div>
+
+                </div>
+                <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+            </div>
+
+            <div class="col-md-12 form-group mb-3">
+                <!-- <label for="phone">Phone</label> -->
+                <input maxlength="49" class="form-control" formControlName="latitude" placeholder="Latitude">
+                <div *ngIf="addeditform.controls['latitude'].errors && (!addeditform.controls['latitude'].pristine || submitted ||addeditform.controls['latitude'].touched  )"
+                    class="error-msg">
+                    <div class="text-danger" [hidden]="!addeditform.controls['latitude'].errors.required">
+                        Latitude is
+                        required.</div>
+                    <div class="text-danger" [hidden]="!addeditform.controls['latitude'].errors.pattern">
+                        Latitude is
+                        invalid.</div>
+                </div>
+            </div>
+
+            <div class="col-md-12 form-group mb-3">
+                <!-- <label for="credit">Cradit card number</label> -->
+                <input maxlength="49" class="form-control" formControlName="longitude" placeholder="Longitude">
+                <div *ngIf="addeditform.controls['longitude'].errors && (!addeditform.controls['longitude'].pristine || submitted ||addeditform.controls['longitude'].touched )"
+                    class="error-msg">
+                    <div class="text-danger" [hidden]="!addeditform.controls['longitude'].errors.required">
+                        Longitude is
+                        required.</div>
+                    <div class="text-danger" [hidden]="!addeditform.controls['longitude'].errors.pattern">
+                        Longitude is
+                        invalid.</div>
+                </div>
+            </div>
+
+        </form>
+        <!-- </div> -->
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary btn-rounded"
+            (click)="modal.dismiss('cancel')">Cancel</button>
+        <button ngbAutofocus class="btn btn-success btn-rounded" (click)="addEditConsulate()">Save</button>
+    </div>
+</ng-template>
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Consulate</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <!-- <div class="row"> -->
+                <form [formGroup]="addeditform">
+
+                    <div class="col-md-12 form-group mb-3">
+                        <!-- <label for="firstName">First name</label> -->
+                        <input maxlength="49" type="text" class="form-control" formControlName="title"
+                            placeholder="Consulate Name">
+                        <div *ngIf="addeditform.controls['title'].errors && (!addeditform.controls['title'].pristine || submitted ||addeditform.controls['title'].touched )"
+                            class="error-msg">
+                            <div class="text-danger" [hidden]="!addeditform.controls['title'].errors.required">
+                                Name is
+                                required.</div>
+                            <div class="text-danger" [hidden]="!addeditform.controls['title'].errors.pattern">
+                                Name is
+                                invalid.</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 form-group mb-3">
+                        <!-- <label for="lastName">Last name</label> -->
+                        <textarea maxlength="150" formControlName="address" type="text" class="form-control"
+                            placeholder="Address"></textarea>
+                        <div *ngIf="addeditform.controls['address'].errors && (!addeditform.controls['address'].pristine || submitted ||addeditform.controls['address'].touched )"
+                            class="error-msg">
+                            <div class="text-danger" [hidden]="!addeditform.controls['address'].errors.required">
+                                Address is
+                                required.</div>
+                            <div class="text-danger" [hidden]="!addeditform.controls['address'].errors.maxlength">
+                                Address should be less then 150 characters.</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 form-group mb-3">
+                        <!-- <label for="exampleInputEmail1">Email address</label> -->
+                        <input maxlength="150" type="email" class="form-control" formControlName="contact_number"
+                            aria-describedby="emailHelp" placeholder="Contact Number">
+                        <div *ngIf="addeditform.controls['contact_number'].errors && (!addeditform.controls['contact_number'].pristine || submitted ||addeditform.controls['contact_number'].touched )"
+                            class="error-msg">
+                            <div class="text-danger" *ngIf="addeditform.controls['contact_number'].errors.required ">
+                                Contact Number is
+                                required.</div>
+                            <div class="text-danger"
+                                *ngIf="addeditform.controls['contact_number'].errors.pattern || addeditform.controls['contact_number'].errors.minlength || addeditform.controls['contact_number'].errors.maxlength">
+                                Contact Numbers must be less than 150 digits.</div>
+
+                        </div>
+                        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                    </div>
+
+                    <div class="col-md-12 form-group mb-3">
+                        <!-- <label for="phone">Phone</label> -->
+                        <input maxlength="49" class="form-control" formControlName="latitude" placeholder="Latitude">
+                        <div *ngIf="addeditform.controls['latitude'].errors && (!addeditform.controls['latitude'].pristine || submitted ||addeditform.controls['latitude'].touched  )"
+                            class="error-msg">
+                            <div class="text-danger" [hidden]="!addeditform.controls['latitude'].errors.required">
+                                Latitude is
+                                required.</div>
+                            <div class="text-danger" [hidden]="!addeditform.controls['latitude'].errors.pattern">
+                                Latitude is
+                                invalid.</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 form-group mb-3">
+                        <!-- <label for="credit">Cradit card number</label> -->
+                        <input maxlength="49" class="form-control" formControlName="longitude" placeholder="Longitude">
+                        <div *ngIf="addeditform.controls['longitude'].errors && (!addeditform.controls['longitude'].pristine || submitted ||addeditform.controls['longitude'].touched )"
+                            class="error-msg">
+                            <div class="text-danger" [hidden]="!addeditform.controls['longitude'].errors.required">
+                                Longitude is
+                                required.</div>
+                            <div class="text-danger" [hidden]="!addeditform.controls['longitude'].errors.pattern">
+                                Longitude is
+                                invalid.</div>
+                        </div>
+                    </div>
+
+                </form>
+                <!-- </div> -->
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary btn-rounded" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-success btn-rounded" (click)="addEditConsulate('edit')"
+                    data-dismiss="modal">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Delete Consulate</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <p><strong>Are you sure you want to delete this Consulate ?</strong></p>
+
+                <span class="text-danger">This operation can not be undone.</span>
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary btn-rounded" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-danger btn-rounded" (click)="deleteData(consulate_id)"
+                    data-dismiss="modal">Delete</button>
+            </div>
+
+        </div>
+    </div>
+</div>

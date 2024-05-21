@@ -1,0 +1,91 @@
+ul {
+    height        : 57px;
+    // margin-left: 16px;
+}
+
+li {
+    // min-width: 75px;
+    text-align: center;
+}
+
+.chatuser {
+    display: flex;
+    padding: 12px 12px;
+    border-bottom: 1px solid #dee2e6 !important;
+    cursor: pointer;
+}
+.user-img--box {
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+}
+.chat-user-mass--detail {
+    width: calc(100% - 45px);
+}
+.chat-user-name--box {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.chat-user--name {
+    width: calc(100% - 122px);
+    text-overflow: ellipsis;
+}
+.chat-user--name h4 {
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+.chat-massage--box {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.chat-massage--box .chat-user--last {
+    width: calc(100% - 40px);
+    
+}
+.chat-massage--box .chat-user--last p{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+.chat-mass--date p {
+    font-size: 10px;
+}
+.unseen-message {
+    float         : right;
+    background    : #92ffa8;
+    border-radius : 15px;
+    height        : 20px;
+    width         : auto;
+    min-width     : 20px;
+    text-align    : center;
+    padding-top   : 1px;
+    padding-right : 3px;
+    padding-left  : 3px;
+    padding-bottom: 1px;
+    margin-bottom : 0px;
+}
+.chat-tab--sec ul li {width: 33.33%;}
+.chat-tab--sec ul li a{cursor: pointer;}
+@keyframes blink {
+    0% {
+      background-color: white;
+    }
+  
+    50% {
+      background-color: rgb(255, 54, 54);
+    }
+  
+    100% {
+      background-color: white;
+    }
+  }
+  
+  .blink {
+    animation: blink 1s linear infinite;
+  }
